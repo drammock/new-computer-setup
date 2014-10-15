@@ -329,7 +329,9 @@ sudo apt-get install r-base r-base-dev
     ## so download the .deb from Rstudio website & install.
 	## Some (probably) useful packages to install from within R: 
 	## install.packages(c('tidyr', 'devtools', 'ez', 'ggplot2', 
-	## 'Hmisc', 'lme4', 'plyr', 'reshape', 'stringi', 'zoo'))
+	## 'Hmisc', 'lme4', 'plyr', 'reshape', 'stringi', 'zoo',
+	## 'deldir', 'languageR', 'maps', 'phonR', 'phonTools', 'sp',
+	## 'splancs', 'stringr'))
 
 ## ## ## ## ## ##
 ## NETWORKING  ##
@@ -426,3 +428,71 @@ MOUNTPT="/media/raid"
 sudo mkdir $MOUNTPT
 UUID=sudo blkid /dev/md0 | cut -d '"' -f2
 sudo echo "UUID=$UUID $MOUNTPT ext4 defaults 0 0" >> /etc/fstab 
+
+## ## ## ## ## ## ##
+## SYSTEM TUNING  ##
+## ## ## ## ## ## ##
+## decrease swappiness
+sudo echo "# Decrease swap usage to a reasonable level" >> /etc/sysctl.conf
+sudo echo vm.swappiness=10 >> /etc/sysctl.conf
+sudo echo "# Improve cache management" >> /etc/sysctl.conf
+sudo echo vm.vfs_cache_pressure=50 >> /etc/sysctl.conf
+
+## ## ## ## ## ##
+##  XPLANETFX  ##
+## ## ## ## ## ##
+cd
+wget http://repository.mein-neues-blog.de:9000/PublicKey
+sudo apt-key add PublicKey
+rm PublicKey
+echo "deb http://repository.mein-neues-blog.de:9000/ /" | sudo tee -a /etc/apt/sources.list
+sudo apt-get update
+sudo apt-get install xplanetfx
+
+## ## ## ## ## ##
+## MISCELLANY  ##
+## ## ## ## ## ##
+	## TODO ##
+	## htk3.4 p2fa
+	## zotero
+## audio applications
+sudo add-apt-repository ppa:me-davidsansome/clementine
+sudo apt-get update
+sudo apt-get install sox praat clementine
+## fonts and typesetting
+sudo apt-get install ttf-mplus otf-stix ttf-droid ttf-dejavu-core \
+ttf-dejavu-extra ttf-freefont ttf-liberation ttf-sil-charis \
+ttf-sil-doulos ttf-ubuntu-font-family ttf-linux-libertine texlive
+## UI
+sudo apt-get install --no-install-recommends cairo-dock
+sudo apt-get install wmctrl compiz compiz-plugins compiz-fusion \
+compiz-fusion-plugins-extra ccsm 
+## database
+sudo apt-get install sqlite3 mysql-server mysql-client mysql-workbench
+## system / miscellany
+sudo apt-get install virtualbox filezilla chromium-browser thunderbird \
+baobab gparted
+## encryption
+sudo apt-get install gnupg seahorse enigmail
+## text editors
+sudo apt-get install sublime-text scribes
+
+## ## ## ## ## ## ##
+## MOZILLA ADDONS ##
+## ## ## ## ## ## ##
+	## TODO ##
+	## FIREFOX (these *should* load automatically once sync is set up):
+	## adblock plus, customizable shortcuts, pdf viewer, tab mix plus
+	## FIREFOX about:config CHANGES:
+	## browser.backspace-action = 0  # backspace goes back in history
+	## plugin.default.state = 2      # automatically allow plugins
+	## THUNDERBIRD:
+	## enigmail, flat folder tree, google contacts, keyconfig,
+	## quicktext, quote collapse, thunderbird conversations	
+
+## ## ## ## ## ## ##
+##  CONFIG FILES  ##
+## ## ## ## ## ## ##
+	## TODO ##
+	## These need to be manually moved from old machine
+	## CCSM, cairo-dock
