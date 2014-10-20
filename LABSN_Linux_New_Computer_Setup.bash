@@ -333,6 +333,12 @@ sudo apt-get install r-base r-base-dev
 	## 'deldir', 'languageR', 'maps', 'phonR', 'phonTools', 'sp',
 	## 'splancs', 'stringr'))
 
+## ## ## ## ## ## ## ## ## ##
+##  BRACKETS (webdev IDE)  ##
+## ## ## ## ## ## ## ## ## ##
+	## TODO ##
+	## go to http://brackets.io/ to download the .DEB file
+
 ## ## ## ## ## ##
 ## NETWORKING  ##
 ## ## ## ## ## ##
