@@ -1,13 +1,20 @@
 #! /bin/bash -e
 ## Extra system setup commands, to complement the LABSN setup scripts.
 
-## SETUP
+## ## ## ##
+## SETUP ##
+## ## ## ##
+## Location of custom builds directory (should already exist).
+build_dir="$HOME/Builds"
+mkdir -p $build_dir
 ## Change these URLs to the correct (latest) versions before running
 praat_targz_url="http://www.fon.hum.uva.nl/praat/praat5402_linux64.tar.gz"
 sublime_deb_url="http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3065_amd64.deb"
+brackets_deb_url="https://github.com/adobe/brackets/releases/download/release-1.0/Brackets.Release.1.0.64-bit.deb"
 zotero_tarbz_url="https://download.zotero.org/standalone/4.0.23/Zotero-4.0.23_linux-x86_64.tar.bz2"
 zotero_xpi_url="https://download.zotero.org/extension/zotero-4.0.24.1.xpi"
-zotero_install_prefix="/opt"
+## Detect current location of this script, so it can find the other
+## resources packaged with it (.desktop files, etc)
 this_script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 ## ## ## ## ## ## ##
@@ -20,15 +27,23 @@ sudo echo "vm.vfs_cache_pressure=50" >> /etc/sysctl.conf
 #echo -e 'APT::Install-Recommends "0";' | sudo tee /etc/apt/apt.conf
 #echo -e 'APT::Install-Suggests "0";' | sudo tee /etc/apt/apt.conf
 
-## ## ## ## ##
-## UI STUFF ##
-## ## ## ## ##
+## ## ## ## ## ## ##
+##  SYSTEM STUFF  ##
+## ## ## ## ## ## ##
+## FILE SYSTEM UTILITIES
+sudo apt-get install baobab gparted
+## ENCRYPTION
+sudo apt-get install gnupg seahorse enigmail
+## DATABASE TOOLS
+sudo apt-get install sqlite3 mysql-server mysql-client mysql-workbench
+## MISC. APPS
+sudo apt-get install virtualbox filezilla chromium-browser thunderbird
 ## CAIRO-DOCK: a nice dock
 sudo apt-get install --no-install-recommends cairo-dock
 ## COMPIZ: compositing manager / all-around UI tweak toolkit
 sudo apt-get install wmctrl compiz compiz-plugins compiz-fusion \
 compiz-fusion-plugins-extra ccsm 
-## XPLANETFX: nice renderings of planet earth for the desktop background
+## XPLANETFX: renderings of planet earth for the desktop background
 cd
 wget "http://repository.mein-neues-blog.de:9000/PublicKey"
 sudo apt-key add PublicKey
@@ -42,13 +57,23 @@ sudo apt-get install xplanetfx
 ## ## ## ## ## ## ##
 ## SCRIBES: an auto-saving editor with configurable snippets
 sudo apt-get install scribes
-## SUBLIME-TEXT: a solid text editor, and the easiest way to get Praat
-## syntax highlighting without using KDE (or Notepad++ on Windows)
+## SUBLIME: easiest way to get Praat syntax highlighting without KDE
 cd
 wget "$sublime_deb_url"
 sublime_deb="${sublime_deb_url##*/}"
 sudo dpkg -i "$sublime_deb"
 rm "$sublime_deb"
+## ATOM: GitHub's in-house editor, TBD how great this one will be
+cd
+wget "https://atom.io/download/deb"
+sudo dpkg -i atom-amd64.deb
+rm atom-amd64.deb
+## BRACKETS: Adobe's web-dev editor; great for HTML, CSS, JavaScript
+cd
+wget "$brackets_deb_url"
+brackets_deb="${brackets_deb_url##*/}"
+sudo dpkg -i "$brackets_deb"
+rm "$brackets_deb"
 
 ## ## ## ## ## ## ## ## ## 
 ##  AUDIO APPLICATIONS  ##
@@ -97,10 +122,9 @@ rm -R praat_desktop_integration/
 ## ## ## ## ## ## ## ## ## ##
 ##  FONTS AND TYPESETTING  ##
 ## ## ## ## ## ## ## ## ## ##
-## see also http://tex.stackexchange.com/a/95373 for installing 
-## "vanilla" TeX Live
+## see also http://tex.stackexchange.com/a/95373 for "vanilla" TeX Live
 sudo apt-get install --no-install-recommends texlive
-## fonts
+## SIL fonts and software
 cd
 wget "http://packages.sil.org/sil.gpg"
 sudo apt-key add sil.gpg
@@ -108,16 +132,35 @@ rm sil.gpg
 codename=$(lsb_release -c -s)
 echo "deb http://packages.sil.org/ubuntu $codename main" | sudo tee -a /etc/apt/sources.list
 sudo apt-get update
+sudo apt-get install  libkmfl0 libkmflcomp0 ibus-kmfl kmfl-keyboard-ipa \
+fonts-sil-charissil fonts-sil-doulossil 
+## other fonts
 sudo apt-get install ttf-mplus otf-stix ttf-droid ttf-dejavu-core \
-ttf-dejavu-extra ttf-freefont ttf-liberation ttf-sil-charis \
-ttf-sil-doulos ttf-ubuntu-font-family ttf-linux-libertine 
+ttf-dejavu-extra ttf-freefont ttf-liberation ttf-ubuntu-font-family \
+ttf-linux-libertine 
+
+## ## ## ## ##
+##  PANDOC  ##
+## ## ## ## ##
+sudo apt-get install haskell-platform
+cabal update
+cabal install pandoc pandoc-citeproc
+
+## ## ## ## ##
+##  JEKYLL  ##
+## ## ## ## ##
+sudo apt-get install ruby ruby-dev
+gem install jekyll jekyll-scholar 
+gem install faraday faraday_middleware  # jekyll orcid dependencies
+cd $build_dir
+git clone git@github.com:mfenner/jekyll-orcid.git
 
 ## ## ## ## ##
 ##  ZOTERO  ##
 ## ## ## ## ##
 zotero_tarbz=${zotero_tarbz_url##*/}
 zotero_tar=$(basename($zotero_tarbz, .bz2))
-cd "$zotero_install_prefix"
+cd /opt
 wget "$zotero_tarbz_url"
 bunzip2 "$zotero_tarbz"
 tar -xf "$zotero_tar"
@@ -129,26 +172,11 @@ xdg-desktop-menu install --novendor zotero.desktop
 # sudo mv zotero.desktop /usr/share/applications
 rm zotero.desktop
 
-## ## ## ## ## ##
-## MISCELLANY  ##
-## ## ## ## ## ##
-## MISC. APPS
-sudo apt-get install virtualbox filezilla chromium-browser thunderbird
-## DATABASE TOOLS
-sudo apt-get install sqlite3 mysql-server mysql-client mysql-workbench
-## SYSTEM UTILITIES
-sudo apt-get install baobab gparted
-## ENCRYPTION
-sudo apt-get install gnupg seahorse enigmail
-
 ## TODO ##
 ## htk3.4 
 ## p2fa
-## jekyll
-## jekyll scholar
-## jekyll orcid
 ## CMU dict
-## pandoc
+## mime type for markdown (scribes doesn't highlight .md)
 
 ## ## ## ## ## ## ##
 ## MOZILLA ADDONS ##
