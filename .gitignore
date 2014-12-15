@@ -1,1 +1,6 @@
-praat/
+# directories
+praat
+
+# files
+LABSN_Linux_Intel_MKL_Setup.bash
+LABSN_Linux_MATLAB_License_Setup.bash
