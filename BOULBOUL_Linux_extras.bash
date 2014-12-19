@@ -13,6 +13,9 @@ sublime_deb_url="http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3065_amd6
 brackets_deb_url="https://github.com/adobe/brackets/releases/download/release-1.0/Brackets.Release.1.0.64-bit.deb"
 zotero_tarbz_url="https://download.zotero.org/standalone/4.0.23/Zotero-4.0.23_linux-x86_64.tar.bz2"
 zotero_xpi_url="https://download.zotero.org/extension/zotero-4.0.24.1.xpi"
+chrome_deb_url="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+nodejs_targz_url="http://nodejs.org/dist/v0.10.34/node-v0.10.34-linux-x64.tar.gz"
+archon_zip_url="https://bitbucket.org/vladikoff/archon/get/v1.2-x86_64.zip"
 ## Detect current location of this script, so it can find the other
 ## resources packaged with it (.desktop files, etc)
 this_script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
@@ -27,9 +30,9 @@ sudo echo "vm.vfs_cache_pressure=50" >> /etc/sysctl.conf
 #echo -e 'APT::Install-Recommends "0";' | sudo tee /etc/apt/apt.conf
 #echo -e 'APT::Install-Suggests "0";' | sudo tee /etc/apt/apt.conf
 
-## ## ## ## ## ## ##
-##  SYSTEM STUFF  ##
-## ## ## ## ## ## ##
+## ## ## ## ## ## ## ##
+## ASSORTED SOFTWARE ##
+## ## ## ## ## ## ## ##
 ## FILE SYSTEM UTILITIES
 sudo apt-get install baobab gparted
 ## ENCRYPTION
@@ -51,6 +54,34 @@ rm PublicKey
 echo "deb http://repository.mein-neues-blog.de:9000/ /" | sudo tee -a /etc/apt/sources.list
 sudo apt-get update
 sudo apt-get install xplanetfx
+
+## ## ## ## ## ## ## ## ## ##
+## SUPPORT FOR RUNNING APK ##
+## ## ## ## ## ## ## ## ## ##
+## GOOGLE CHROME
+cd
+wget "$chrome_deb_url"
+chrome_deb="${chrome_deb_url##*/}"
+sudo dpkg -i "$chrome_deb"
+rm "$chrome_deb"
+## install NodeJS
+#cd
+#wget "$nodejs_targz_url"
+#nodejs_targz="${nodejs_targz_url##*/}"
+#tar -zxf "$nodejs_targz"
+#rm "$nodejs_targz"
+sudo apt-get install npm nodejs nodejs-legacy lib32stdc++6
+## install chromeos-apk
+sudo npm install chromeos-apk -g
+## ARCHON (alternative android runtime for Chrome)
+cd
+mkdir Home
+wget "$archon_zip_url"
+archon_zip="${archon_zip_url##*/}"
+unzip "$archon_zip" -d $HOME/Home
+rm "$archon_zip"
+## run APKs with:
+#chromeos-apk ThePackageName.apk --archon
 
 ## ## ## ## ## ## ##
 ##  TEXT EDITORS  ##
