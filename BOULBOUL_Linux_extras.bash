@@ -20,6 +20,10 @@ archon_zip_url="https://bitbucket.org/vladikoff/archon/get/v1.2-x86_64.zip"
 ## resources packaged with it (.desktop files, etc)
 this_script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
+## Information about your linux distribution
+codename=$(lsb_release -c -s)
+lts=$(lsb_release -d -s | cut -d " " -f 3)
+
 ## ## ## ## ## ## ##
 ## SYSTEM TUNING  ##
 ## ## ## ## ## ## ##
@@ -27,8 +31,8 @@ sudo echo "# Decrease swap usage to a reasonable level" >> /etc/sysctl.conf
 sudo echo "vm.swappiness=10" >> /etc/sysctl.conf
 sudo echo "# Improve cache management" >> /etc/sysctl.conf
 sudo echo "vm.vfs_cache_pressure=50" >> /etc/sysctl.conf
-#echo -e 'APT::Install-Recommends "0";' | sudo tee /etc/apt/apt.conf
-#echo -e 'APT::Install-Suggests "0";' | sudo tee /etc/apt/apt.conf
+#echo -e 'APT::Install-Recommends "0";' | sudo tee -a /etc/apt/apt.conf
+#echo -e 'APT::Install-Suggests "0";' | sudo tee -a /etc/apt/apt.conf
 
 ## ## ## ## ## ## ## ##
 ## ASSORTED SOFTWARE ##
@@ -47,10 +51,7 @@ sudo apt-get install --no-install-recommends cairo-dock
 sudo apt-get install wmctrl compiz compiz-plugins compiz-fusion \
 compiz-fusion-plugins-extra ccsm 
 ## XPLANETFX: renderings of planet earth for the desktop background
-cd
-wget "http://repository.mein-neues-blog.de:9000/PublicKey"
-sudo apt-key add PublicKey
-rm PublicKey
+wget -O - "http://repository.mein-neues-blog.de:9000/PublicKey" | sudo apt-key add -
 echo "deb http://repository.mein-neues-blog.de:9000/ /" | sudo tee -a /etc/apt/sources.list
 sudo apt-get update
 sudo apt-get install xplanetfx
@@ -157,11 +158,13 @@ rm -R praat_desktop_integration/
 sudo apt-get install --no-install-recommends texlive
 ## SIL fonts and software
 cd
-wget "http://packages.sil.org/sil.gpg"
-sudo apt-key add sil.gpg
-rm sil.gpg
-codename=$(lsb_release -c -s)
-echo "deb http://packages.sil.org/ubuntu $codename main" | sudo tee -a /etc/apt/sources.list
+wget -O - "http://packages.sil.org/sil.gpg" | sudo apt-key add -
+if [ $lts = "LTS" ]; then
+	cn=$codename
+else
+	cn="trusty"
+fi
+echo "deb http://packages.sil.org/ubuntu $cn main" | sudo tee -a /etc/apt/sources.list
 sudo apt-get update
 sudo apt-get install  libkmfl0 libkmflcomp0 ibus-kmfl kmfl-keyboard-ipa \
 fonts-sil-charissil fonts-sil-doulossil 
