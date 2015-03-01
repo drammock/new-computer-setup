@@ -201,10 +201,23 @@ tar -xf "$zotero_tar"
 rm "$zotero_tar"
 # install desktop file to get it in the menus
 cd "$this_script_dir"
+#sudo cp zotero-desktop.txt /usr/share/applications/zotero.desktop
 cat zotero-desktop.txt > zotero.desktop
 xdg-desktop-menu install --novendor zotero.desktop
-# sudo mv zotero.desktop /usr/share/applications
 rm zotero.desktop
+
+## ## ## ## ##
+## INKVIEW  ##
+## ## ## ## ##
+# install desktop file to get it in the menus
+cd "$this_script_dir"
+#sudo cp inkview-desktop.txt /usr/share/applications/inkview.desktop
+cat inkview-desktop.txt > inkview.desktop
+xdg-desktop-menu install --novendor inkview.desktop
+rm inkview.desktop
+# assign all SVGs to open with inkview
+xdg-mime default inkview.desktop image/svg+xml
+
 
 ## TODO ##
 ## htk3.4 
