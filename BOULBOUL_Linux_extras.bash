@@ -95,11 +95,12 @@ wget "$sublime_deb_url"
 sublime_deb="${sublime_deb_url##*/}"
 sudo dpkg -i "$sublime_deb"
 rm "$sublime_deb"
-## ATOM: GitHub's in-house editor, TBD how great this one will be
+## ATOM: GitHub's in-house editor
 cd
 wget "https://atom.io/download/deb"
 sudo dpkg -i atom-amd64.deb
 rm atom-amd64.deb
+xdg-mime default atom.desktop text/x-markdown
 ## BRACKETS: Adobe's web-dev editor; great for HTML, CSS, JavaScript
 cd
 wget "$brackets_deb_url"
