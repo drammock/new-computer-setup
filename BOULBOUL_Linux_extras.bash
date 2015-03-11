@@ -156,7 +156,7 @@ rm -R praat_desktop_integration/
 ##  FONTS AND TYPESETTING  ##
 ## ## ## ## ## ## ## ## ## ##
 ## see also http://tex.stackexchange.com/a/95373 for "vanilla" TeX Live
-sudo apt-get install --no-install-recommends texlive
+sudo apt-get install --no-install-recommends texlive texlive-xetex texlive-latex-recommended lmodern
 ## SIL fonts and software
 cd
 wget -O - "http://packages.sil.org/sil.gpg" | sudo apt-key add -
