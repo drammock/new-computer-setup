@@ -34,6 +34,24 @@ sudo echo "vm.vfs_cache_pressure=50" >> /etc/sysctl.conf
 #echo -e 'APT::Install-Recommends "0";' | sudo tee -a /etc/apt/apt.conf
 #echo -e 'APT::Install-Suggests "0";' | sudo tee -a /etc/apt/apt.conf
 
+## ## ## ##
+## RUBY  ##
+## ## ## ##
+cd
+git clone git://github.com/sstephenson/rbenv.git .rbenv
+echo '# RUBY (via rbenv)' >> ~/.bashrc
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+exec $SHELL
+git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
+exec $SHELL
+git clone https://github.com/sstephenson/rbenv-gem-rehash.git ~/.rbenv/plugins/rbenv-gem-rehash
+rbenv install 2.2.2
+rbenv global 2.2.2
+echo "gem: --no-ri --no-rdoc" > ~/.gemrc
+gem install bundler
+
 ## ## ## ## ## ## ## ##
 ## ASSORTED SOFTWARE ##
 ## ## ## ## ## ## ## ##
