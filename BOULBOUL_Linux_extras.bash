@@ -208,11 +208,22 @@ rm inkview.desktop
 xdg-mime default inkview.desktop image/svg+xml
 
 
+## ## ## ##
+##  HTK  ##
+## ## ## ##
+cd $this_script_dir
+htk_tar="HTK-3.4.tar.gz"
+cp $htk_tar /opt/
+tar -zxf "/opt/$htk_tar"
+cd /opt/htk/
+./configure
+make all
+sudo make install
+cd $this_script_dir
+
 ## TODO ##
-## htk3.4 
 ## p2fa
 ## CMU dict
-## mime type for markdown (scribes doesn't highlight .md)
 
 ## ## ## ## ## ## ##
 ## MOZILLA ADDONS ##
