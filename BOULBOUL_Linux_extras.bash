@@ -211,6 +211,8 @@ xdg-mime default inkview.desktop image/svg+xml
 ## ## ## ##
 ##  HTK  ##
 ## ## ## ##
+# dependencies
+sudo apt-get install gcc-multilib g++-multilib libx11-dev:i386 
 cd $this_script_dir
 htk_tar="HTK-3.4.tar.gz"
 cp $htk_tar /opt/
