@@ -676,8 +676,9 @@ elif [ $avbin = "git" ]; then
 	cd "$build_dir"
 	wget $avbinurl
 	avbininstaller="${avbinurl##*/}"
+	chmod +x "$avbininstaller"
 	## accept the GPL
-	echo Y | sudo ./$avbininstaller --nox11
+	sudo bash -c "yes | ./$avbininstaller --nox11"
 	rm $avbininstaller
 fi
 
