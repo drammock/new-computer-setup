@@ -79,32 +79,32 @@ sudo apt-get install xplanetfx
 sudo apt-get install scribes
 ## SUBLIME: easiest way to get Praat syntax highlighting without KDE
 cd
-wget "$sublime_deb_url"
-sublime_deb="${sublime_deb_url##*/}"
-sudo dpkg -i "$sublime_deb"
-rm "$sublime_deb"
+wget "$sublime_deb_url" -o sublime.deb
+#sublime_deb="${sublime_deb_url##*/}"
+sudo dpkg -i sublime.deb
+rm sublime.deb
 ## ATOM: GitHub's in-house editor
 cd
-wget "https://atom.io/download/deb"
-sudo dpkg -i atom-amd64.deb
-rm atom-amd64.deb
+wget "https://atom.io/download/deb" -o atom.deb
+sudo dpkg -i atom.deb
+rm atom.deb
 xdg-mime default atom.desktop text/x-markdown
 ## BRACKETS: Adobe's web-dev editor; great for HTML, CSS, JavaScript
-cd
-wget "$brackets_deb_url"
-brackets_deb="${brackets_deb_url##*/}"
-sudo dpkg -i "$brackets_deb"
-rm "$brackets_deb"
+#cd
+#wget "$brackets_deb_url"
+#brackets_deb="${brackets_deb_url##*/}"
+#sudo dpkg -i "$brackets_deb"
+#rm "$brackets_deb"
 
-## ## ## ## ## ## ## ## ## 
+## ## ## ## ## ## ## ## ##
 ##  AUDIO APPLICATIONS  ##
 ## ## ## ## ## ## ## ## ##
 ## SOX
 sudo apt-get install sox
 ## CLEMENTINE: basically an iTunes clone
-sudo add-apt-repository ppa:me-davidsansome/clementine
-sudo apt-get update
-sudo apt-get install clementine
+#sudo add-apt-repository ppa:me-davidsansome/clementine
+#sudo apt-get update
+#sudo apt-get install clementine
 ## PRAAT
 cd
 wget "$praat_targz_url"
@@ -160,7 +160,7 @@ fonts-sil-charissil fonts-sil-doulossil
 ## other fonts
 sudo apt-get install ttf-mplus otf-stix ttf-droid ttf-dejavu-core \
 ttf-dejavu-extra ttf-freefont ttf-liberation ttf-ubuntu-font-family \
-ttf-linux-libertine 
+ttf-linux-libertine
 
 ## ## ## ## ##
 ##  PANDOC  ##
@@ -173,10 +173,10 @@ cabal install pandoc pandoc-citeproc
 ##  JEKYLL  ##
 ## ## ## ## ##
 sudo apt-get install ruby ruby-dev
-gem install jekyll jekyll-scholar 
-gem install faraday faraday_middleware  # jekyll orcid dependencies
-cd $build_dir
-git clone git@github.com:mfenner/jekyll-orcid.git
+gem install jekyll jekyll-scholar
+#gem install faraday faraday_middleware  # jekyll orcid dependencies
+#cd $build_dir
+#git clone git@github.com:mfenner/jekyll-orcid.git
 
 ## ## ## ## ##
 ##  ZOTERO  ##
@@ -226,6 +226,7 @@ cd $this_script_dir
 ## TODO ##
 ## p2fa
 ## CMU dict
+## kaldi
 
 ## ## ## ## ## ## ##
 ## MOZILLA ADDONS ##
